@@ -1,0 +1,28 @@
+{
+  "name": "cpclub",
+  "version": "0.0.1",
+  "description": "Tool to maintain ranks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/shashikdm/CPClub-RankingTool.git"
+  },
+  "keywords": [
+    "competitive-programming",
+    "web-scraping"
+  ],
+  "author": "Shashikant Kadam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shashikdm/CPClub-RankingTool/issues"
+  },
+  "homepage": "https://github.com/shashikdm/CPClub-RankingTool#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3"
+  },
+  "devDependencies": {}
+}
