@@ -6,7 +6,6 @@ const UserRepository = require('./models/user_table')
 function test2() {
     const dao = new AppDAO('./database.sqlite3')
     const userRepo = new UserRepository(dao)
-  
     userRepo.createTable()
       .then(() => userRepo.createTable())
       .then((data) => {
@@ -33,6 +32,8 @@ function test2() {
       console.log(`\nRetreived user from database`)
       console.log(`user id = ${user.id}`)
       console.log(`user name = ${user.name}`)
+      console.log(`user name = ${user.codechefid}`)
+      console.log(`user name = ${user.codeforceid}`)
     })
     .catch((err) => {
         console.log('Error: ')
