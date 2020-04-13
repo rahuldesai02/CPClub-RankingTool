@@ -1,7 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-function _fetch(url, selector, profile) {
+function fetch(url, selector, profile) {
     url = url+profile;
     return new Promise(resolve => axios.get(url).then((response) => {
             let $ = cheerio.load(response.data);
@@ -28,10 +28,10 @@ data.set(platform.CODEFORCES, {
     selector: 'span.user-green:nth-child(2)'
 });
 
-async function fetch(platformId, profile, callback) {
+async function fetchRating(platformId, profile, callback) {
     let platformData = data.get(platformId);
-    let rating = await _fetch(platformData.url, platformData.selector, profile);
+    let rating = await fetch(platformData.url, platformData.selector, profile);
     callback(rating);
 }
 
-module.exports = {platform, fetch};
+module.exports = {platform, fetchRating};
