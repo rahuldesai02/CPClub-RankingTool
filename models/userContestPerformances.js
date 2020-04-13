@@ -12,7 +12,7 @@ class userContestPerformances {
         REFERENCES contest (id) )`
       return this.dao.run(sql)
     }
-    create(date, user_id, contest_id, solved,upsolved) {
+    create(user_id, contest_id, solved,upsolved) {
         console.log("Inserting");
         return this.dao.run(
           `INSERT INTO userContestPerformance (user_id, contest_id, solved,upsolved)

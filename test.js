@@ -99,23 +99,22 @@ function testUser() {
 
           },
           {
-            date: '624545',
-            user_id: 1,
-            contest_id:'rgd1998',
-            solved:10,
-            upsolved:100
+            user_id: 'rgd1998',
+            contest_id:1,
+            solved:3,
+            upsolved:14
           }
         ]
         return Promise.all(stats.map((user) => {
-          const { date, user_id, contest_id,solved,upsolved } = user
-          return userContestPerformanceRepo.create(date, user_id, contest_id,solved,upsolved)
+          const {user_id, contest_id,solved,upsolved } = user
+          return userContestPerformanceRepo.create(user_id, contest_id,solved,upsolved)
         }))
       })
       .then(() => userContestPerformanceRepo.getById(1))
     .then((contest) => {
       console.log(`\nRetreived user from database`)
-      console.log(`contest id = ${contest.id}`)
-      console.log(`contest_id = ${contest.id}`)
+      console.log(`user id = ${contest.user_id}`)
+      console.log(`contest_id = ${contest.contest_id}`)
       console.log(`solved = ${contest.solved}`)
       console.log(`upsolved = ${contest.upsolved}`)
     })
