@@ -28,10 +28,19 @@ function fetchSubmissions(platform, profile, contest) {
                     } else {
                         submission.solve = 'upsolved';
                     }
+
                     if(submission.platform == platform
                         && submission.verdict == 'Accepted' 
                         && contest.problems.includes(submission.problem)) {
-                        submissions.push(submission);
+                        let duplicate = false
+                        for(let i = 0; i < submissions.length(); i++) {
+                            if(submission.problem == submissions[i].problem) {
+                                duplicate = true
+                            }
+                        }
+                        if(!duplicate) {
+                            submissions.push(submission);
+                        }
                     }
                     if(submission.time < contest.startTime) {
                         finish = true;
