@@ -1,5 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer')
+const stopstalk = require('./stopstalk');
 
 const baseURL = 'https://www.codechef.com/'
 
@@ -18,7 +20,7 @@ async function fetchRating(profile, callback) {
 async function fetchContests(date, callback) {
     let url = baseURL+'contests/';
     let rowSelector = '.content-wrapper > div:nth-child(22) > table:nth-child(1) > tbody:nth-child(2) > tr';
-    axios.get(url).then((response) => {
+    axios.get(url).then(async (response) => {
         let $ = cheerio.load(response.data);
         let contestRows = $(rowSelector).toArray();
         let contests = []
@@ -35,8 +37,48 @@ async function fetchContests(date, callback) {
                 contests.push(contest);
             }
         });
+        for(let i = 0; i < contests.length; i++) {
+            contests[i] = await fetchContestProblems(contests[i])
+        }
         callback(contests);
     })
 }
 
-module.exports = {fetchRating, fetchContests};
+async function fetchContestProblems(contest) {
+    return new Promise(async (resolve) => {
+        const browser = await puppeteer.launch()
+        const page = await browser.newPage()
+        let url = baseURL+contest.code
+        if(contest.name.includes('Cook-Off') ||
+            contest.name.includes('Lunchtime') ||
+            contest.name.includes('Challenge')) {
+            url = url + 'B'
+        }
+        await page.goto(url)
+        contest.problems = []
+        contest = await page.evaluate((contest) => {
+            let tableSelector = '.dataTable'
+            let tables = document.querySelectorAll(tableSelector)
+            try {
+                for(let row of tables[0].children[1].children) {
+                    contest.problems.push(row.children[1].innerText)
+                }
+                for(let row of tables[1].children[1].children) {
+                    contest.problems.push(row.children[1].innerText)
+                }
+            } catch(err) {
+                console.log(err)
+            }
+            return contest
+        }, contest)
+        browser.close()
+        resolve(contest)
+    })
+}
+
+async function fetchSubmissions(profile, contest, callback) {
+    let submissions = await stopstalk.fetchSubmissions('codechef', profile, contest)
+    callback(submissions)
+}
+
+module.exports = {fetchRating, fetchContests, fetchSubmissions};
