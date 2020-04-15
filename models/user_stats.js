@@ -8,7 +8,8 @@ class user_stats {
       const sql = `
       CREATE TABLE IF NOT EXISTS stats (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT,user_id TEXT,codechef_rank INTEGER,codeforce_rank INTEGER)`
+        date TEXT,user_id INTEGER,codechef_rank INTEGER,codeforce_rank INTEGER, 
+        FOREIGN KEY (user_id) REFERENCES user_table(id))`
       return this.dao.run(sql)
     }
     create(date, user_id, codechef_rank, codeforce_rank) {
