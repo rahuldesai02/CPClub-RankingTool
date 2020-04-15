@@ -3,6 +3,7 @@ const Promise = require('bluebird')
 const AppDAO = require('./models/dao')
 const UserRepository = require('./models/user_table')
 const contestRepository = require('./models/contests')
+const userStatRepository = require('./models/user_stats')
 const userContestPerformanceRepository = require('./models/userContestPerformances')
 
 scrapper.fetch(scrapper.platform.CODEFORCES, 'shashikdm', console.log);
@@ -18,19 +19,20 @@ function testUser() {
         const users = [
           {
             name: 'Shashikant',
-            codechefid: 'shashikdm',
-            codeforceid:'shashikdm'
-
+            codechef_id: 'shashikdm',
+            codeforce_id:'shashikdm',
+            stopstalk_id:'sk'
           },
           {
             name: 'Rahul',
-            codechefid: 'rgd1998',
-            codeforceid:'rgd1998'
+            codechef_id: 'rgd1998',
+            codeforce_id:'rgd1998',
+            stopstalk_id:'rgd'
           }
         ]
         return Promise.all(users.map((user) => {
-          const { name, codechefid, codeforceid } = user
-          return userRepo.create(name, codechefid, codeforceid)
+          const { name, codechef_id, codeforce_id,stopstalk_id } = user
+          return userRepo.create(name, codechef_id, codeforce_id,stopstalk_id)
         }))
       })
       .then(() => userRepo.getById(1))
@@ -38,8 +40,43 @@ function testUser() {
       console.log(`\nRetreived user from database`)
       console.log(`user id = ${user.id}`)
       console.log(`user name = ${user.name}`)
-      console.log(`user name = ${user.codechefid}`)
-      console.log(`user name = ${user.codeforceid}`)
+      console.log(`user name = ${user.codechef_id}`)
+      console.log(`user name = ${user.codeforce_id}`)
+      console.log(`user name = ${user.stopstalk_id}`)
+    })
+    .catch((err) => {
+        console.log('Error: ')
+        console.log(JSON.stringify(err))
+      })
+  }
+
+  function testUserStats() {
+    const dao = new AppDAO('./database.sqlite3')
+    const userRepo = new userStatRepository(dao)
+    userRepo.createTable()
+      .then(() => userRepo.createTable())
+      .then((data) => {
+        const users = [
+          {
+            date: '4545454',
+            user_id: 1,
+            codechef_rank:1234,
+            codeforce_rank:3433
+          }
+        ]
+        return Promise.all(users.map((user) => {
+          const { date, user_id, codechef_rank, codeforce_rank } = user
+          return userRepo.create(date, user_id, codechef_rank, codeforce_rank)
+        }))
+      })
+      .then(() => userRepo.getById(1))
+    .then((user) => {
+      console.log(`\nRetreived user from database`)
+      console.log(`id = ${user.id}`)
+      console.log(`date = ${user.date}`)
+      console.log(`rank1 = ${user.codechef_rank}`)
+      console.log(`rank2 = ${user.codeforce_rank}`)
+      console.log(`id = ${user.user_id}`)
     })
     .catch((err) => {
         console.log('Error: ')
@@ -92,31 +129,28 @@ function testUser() {
       .then((data) => {
         const stats = [
           {
-            user_id: 'shashikdm',
-            contest_id:1,
+            user_id: 1,
+            platform: 0,
+            contest_code:'sdsds',
             solved:10,
-            upsolved:100
-
-          },
-          {
-            user_id: 'rgd1998',
-            contest_id:1,
-            solved:3,
-            upsolved:14
+            upsolved:100,
+            total:123
           }
         ]
         return Promise.all(stats.map((user) => {
-          const {user_id, contest_id,solved,upsolved } = user
-          return userContestPerformanceRepo.create(user_id, contest_id,solved,upsolved)
+          const {user_id, platform,contest_code,solved,upsolved,total } = user
+          return userContestPerformanceRepo.create(user_id, platform,contest_code,solved,upsolved,total)
         }))
       })
       .then(() => userContestPerformanceRepo.getById(1))
     .then((contest) => {
       console.log(`\nRetreived user from database`)
       console.log(`user id = ${contest.user_id}`)
-      console.log(`contest_id = ${contest.contest_id}`)
+      console.log(`platform = ${contest.platform}`)
       console.log(`solved = ${contest.solved}`)
       console.log(`upsolved = ${contest.upsolved}`)
+      console.log(`code = ${contest.code}`)
+      console.log(`total = ${contest.total}`)
     })
     .catch((err) => {
         console.log('Error: ')
