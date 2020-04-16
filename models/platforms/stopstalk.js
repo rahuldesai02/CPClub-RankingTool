@@ -33,7 +33,7 @@ function fetchSubmissions(platform, profile, contest) {
                         && submission.verdict == 'Accepted' 
                         && contest.problems.includes(submission.problem)) {
                         let duplicate = false
-                        for(let i = 0; i < submissions.length(); i++) {
+                        for(let i = 0; i < submissions.length; i++) {
                             if(submission.problem == submissions[i].problem) {
                                 duplicate = true
                             }
