@@ -24,7 +24,6 @@ function fetchContests(date, callback) {
     let url = baseURL+'contests/';
     let rowSelector = '.contests-table > div:nth-child(2) > div:nth-child(6) > table:nth-child(3) > tbody:nth-child(1) > tr';
     axios.get(url).then(async (response) => {
-      require('fs').writeFile('page.html', response.data, ()=>{});
       let $ = cheerio.load(response.data);
       let contestRows = $(rowSelector).toArray();
       contestRows.splice(0, 1);
@@ -40,6 +39,7 @@ function fetchContests(date, callback) {
         if(contest.endTime.getDate() == date.getDate()
           && contest.endTime.getMonth() == date.getMonth()
           && contest.endTime.getFullYear() == date.getFullYear()) {
+          console.log(row.children[5].children[1].children[0].data)
           contests.push(contest);
         }
       });
