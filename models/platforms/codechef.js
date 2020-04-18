@@ -58,6 +58,7 @@ async function fetchContestProblems(contest) {
         const page = await browser.newPage()
         let url = baseURL+contest.code+'B'
         await page.goto(url)
+        await page.waitForSelector('.dataTable')
         contest.problems =  await page.evaluate(() => {
             let tableSelector = '.dataTable'
             let tables = document.querySelectorAll(tableSelector)
