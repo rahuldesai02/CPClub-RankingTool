@@ -72,9 +72,6 @@ async function fetchContestProblems(contest) {
               for(let row of tables[1].children[1].children) {
                 problems.push(row.children[1].innerText)
               }
-              console.log(tables[0]);
-              console.log();
-              console.log(tables[1]);
             } finally {
               return problems
             }
