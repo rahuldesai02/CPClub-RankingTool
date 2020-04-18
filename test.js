@@ -96,22 +96,22 @@ describe('Scrapper', () => {
   
   describe('Fetch Contests', () => {
     it('should return November Challenge 2019', async () => {
-      let contests = await codechef.fetchContests(new Date(2019, 10, 11));
+      let contests = await codechef.fetchContests(NOV19.endTime);
       assert.deepEqual(contests, [NOV19])
     }).timeout(60000)
     it('should return January Cook-Off 2020', async () => {
-      let contests = await codechef.fetchContests(new Date(2020, 0, 20));
+      let contests = await codechef.fetchContests(COOK114.endTime);
       assert.deepEqual(contests, [COOK114])
     }).timeout(60000)
     it('should return March Lunchtime 2020 (Unrated)', async () => {
-      let contests = await codechef.fetchContests(new Date(2020, 2, 28));
+      let contests = await codechef.fetchContests(LTIME82.endTime);
       assert.deepEqual(contests, [LTIME82])
     }).timeout(60000)
     it('should return Empty array', async () => {
       assert.equal((await codechef.fetchContests(new Date(2020, 4, 10))).length, 0);
     }).timeout(60000)
     it('should return Codeforces Round #625', async () => {
-      let contests = await codeforces.fetchContests(new Date(2020, 2, 1))
+      let contests = await codeforces.fetchContests(CR625[0].endTime)
       assert.deepEqual(contests, CR625)
     }).timeout(60000)
     it('should return Empty array', async () => {
