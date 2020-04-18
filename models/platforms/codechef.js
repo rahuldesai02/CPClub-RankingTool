@@ -57,19 +57,23 @@ async function fetchContestProblems(contest) {
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
         let url = baseURL+contest.code+'B'
-        await page.goto(url)
-        await page.waitForSelector('.dataTable')
+        await page.goto(url, { waitUntil: 'networkidle0' }).catch((reason) => {
+          return []
+        })
         contest.problems =  await page.evaluate(() => {
             let tableSelector = '.dataTable'
             let tables = document.querySelectorAll(tableSelector)
             let problems = []
-            for(let row of tables[0].children[1].children) {
-              problems.push(row.children[1].innerText)
+            try {
+              for(let row of tables[0].children[1].children) {
+                problems.push(row.children[1].innerText)
+              }
+              for(let row of tables[1].children[1].children) {
+                problems.push(row.children[1].innerText)
+              }
+            } finally {
+              return problems
             }
-            for(let row of tables[1].children[1].children) {
-              problems.push(row.children[1].innerText)
-            }
-            return problems
         }).catch((err) => {
           return []
         })
