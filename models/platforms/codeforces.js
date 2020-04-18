@@ -32,14 +32,13 @@ function fetchContests(date, callback) {
         let contest = {
           code: row.attribs['data-contestid'],
           name: row.children[1].children[0].data.trim(),
-          startTime: new Date(new Date(row.children[5].children[1].children[0].data).getTime())
+          startTime: new Date(new Date(row.children[5].children[1].children[0].data+' UTC+3').getTime())
         }
         let duration = getMilliSeconds(row.children[7].children[0].data.trim())
         contest.endTime = new Date(contest.startTime.getTime()+duration);
         if(contest.endTime.getDate() == date.getDate()
           && contest.endTime.getMonth() == date.getMonth()
           && contest.endTime.getFullYear() == date.getFullYear()) {
-          console.log(row.children[5].children[1].children[0].data)
           contests.push(contest);
         }
       });

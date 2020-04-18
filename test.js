@@ -67,8 +67,8 @@ describe('Scrapper', () => {
     {
       code: '1320',
       name: 'Codeforces Round #625 (Div. 1, based on Technocup 2020 Final Round)',
-      startTime: new Date('2020-03-01T10:45:00.000Z'),
-      endTime: new Date('2020-03-01T12:45:00.000Z'),
+      startTime: new Date('2020-03-01T13:15:00.000Z'),
+      endTime: new Date('2020-03-01T15:15:00.000Z'),
       problems: [
         'Journey Planning',
         'Navigation System',
@@ -81,8 +81,8 @@ describe('Scrapper', () => {
     {
       code: '1321',
       name: 'Codeforces Round #625 (Div. 2, based on Technocup 2020 Final Round)',
-      startTime: new Date('2020-03-01T10:45:00.000Z'),
-      endTime: new Date('2020-03-01T12:45:00.000Z'),
+      startTime: new Date('2020-03-01T13:15:00.000Z'),
+      endTime: new Date('2020-03-01T15:15:00.000Z'),
       problems: [
         'Contest for Robots',
         'Journey Planning',
