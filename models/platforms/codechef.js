@@ -58,6 +58,7 @@ async function fetchContestProblems(contest) {
         const page = await browser.newPage()
         let url = baseURL+contest.code+'B'
         await page.goto(url, { waitUntil: 'networkidle0' }).catch((reason) => {
+          console.log('Ends here');
           return []
         })
         contest.problems =  await page.evaluate(() => {
@@ -71,10 +72,14 @@ async function fetchContestProblems(contest) {
               for(let row of tables[1].children[1].children) {
                 problems.push(row.children[1].innerText)
               }
+              console.log(tables[0]);
+              console.log();
+              console.log(tables[1]);
             } finally {
               return problems
             }
         }).catch((err) => {
+          console.log('Ends there');
           return []
         })
         browser.close()
