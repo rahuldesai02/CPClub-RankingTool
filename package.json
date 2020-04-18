@@ -24,10 +24,11 @@
     "axios": "^0.19.2",
     "bluebird": "^3.7.2",
     "cheerio": "^1.0.0-rc.3",
-    "istanbul": "^0.4.5",
     "mocha": "^7.1.1",
     "puppeteer": "^2.1.1",
     "sqlite3": "^4.1.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "istanbul": "^0.4.5"
+  }
 }
