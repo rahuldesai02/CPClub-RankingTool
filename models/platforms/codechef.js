@@ -58,7 +58,6 @@ async function fetchContestProblems(contest) {
         const page = await browser.newPage()
         let url = baseURL+contest.code+'B'
         await page.goto(url, { waitUntil: 'networkidle0' }).catch((reason) => {
-          console.log('Ends here');
           return []
         })
         contest.problems =  await page.evaluate(() => {
