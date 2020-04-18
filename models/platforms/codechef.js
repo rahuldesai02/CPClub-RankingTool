@@ -79,7 +79,7 @@ async function fetchContestProblems(contest) {
               return problems
             }
         }).catch((err) => {
-          console.log('Ends there');
+          console.log(err);
           return []
         })
         browser.close()
