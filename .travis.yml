@@ -1,13 +1,13 @@
 language: node_js
 node_js:
   - stable
-addons:
-  chrome: stable
-before_install:
-  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+# addons:
+#   chrome: stable
+# before_install:
+#   - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 
-script:
-  - nyc mocha
-  - nyc report --reporter=text-lcov > coverage.lcov && codecov
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+# script:
+#   - nyc mocha
+#   - nyc report --reporter=text-lcov > coverage.lcov && codecov
+# after_success:
+#   - bash <(curl -s https://codecov.io/bash)
