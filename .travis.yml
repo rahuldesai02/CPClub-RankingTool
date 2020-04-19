@@ -3,7 +3,4 @@ node_js:
   - stable
 
 script:
-  - nyc npm test
-  - nyc report --reporter=text-lcov > coverage.lcov
-after_success:
-  - ./node_modules/.bin/codecov
+  - nyc npm test && nyc report --reporter=text-lcov | coveralls
