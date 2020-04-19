@@ -28,9 +28,5 @@
     "puppeteer": "^2.1.1",
     "sqlite3": "^4.1.1"
   },
-  "devDependencies": {
-    "codecov": "^3.6.5",
-    "nyc": "^15.0.1",
-    "puppeteer-to-istanbul": "^1.2.2"
-  }
+  "devDependencies": {}
 }
