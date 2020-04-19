@@ -4,6 +4,6 @@ node_js:
 
 script:
   - nyc npm test
-  - nyc report --reporter=text-lcov > coverage.lcov
+  - nyc report --reporter=text-lcov --exclude "./models/platforms/codechef.js" > coverage.lcov
 after_success:
   - ./node_modules/.bin/codecov

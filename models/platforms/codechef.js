@@ -57,11 +57,6 @@ async function fetchContestProblems(contest) {
     const browser = await puppeteer.launch()
     const page = await browser.newPage()
     let url = baseURL+contest.code+'B'
-    // Enable both JavaScript and CSS coverage
-    await Promise.all([
-      page.coverage.startJSCoverage(),
-      page.coverage.startCSSCoverage()
-    ]);
     await page.goto(url, { waitUntil: 'networkidle0' }).catch((reason) => {
       return []
     })
@@ -83,11 +78,6 @@ async function fetchContestProblems(contest) {
       console.log(err);
       return []
     })
-    const [jsCoverage, cssCoverage] = await Promise.all([
-      page.coverage.stopJSCoverage(),
-      page.coverage.stopCSSCoverage(),
-    ]);
-    pti.write([...jsCoverage, ...cssCoverage])
     browser.close()
     resolve(contest)
   })
