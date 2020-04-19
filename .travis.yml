@@ -3,6 +3,7 @@ node_js:
   - stable
 
 script:
-  - istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
+  - nyc npm test
+  - nyc report --reporter=text-lcov > coverage.lcov
 after_success:
-  - coveralls
+  - ./node_modules/.bin/codecov
