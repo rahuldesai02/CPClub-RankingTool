@@ -53,34 +53,44 @@ async function fetchContests(date) {
 }
 
 async function fetchContestProblems(contest) {
-    return new Promise(async (resolve) => {
-        const browser = await puppeteer.launch()
-        const page = await browser.newPage()
-        let url = baseURL+contest.code+'B'
-        await page.goto(url, { waitUntil: 'networkidle0' }).catch((reason) => {
-          return []
-        })
-        contest.problems =  await page.evaluate(() => {
-            let tableSelector = '.dataTable'
-            let tables = document.querySelectorAll(tableSelector)
-            let problems = []
-            try {
-              for(let row of tables[0].children[1].children) {
-                problems.push(row.children[1].innerText)
-              }
-              for(let row of tables[1].children[1].children) {
-                problems.push(row.children[1].innerText)
-              }
-            } finally {
-              return problems
-            }
-        }).catch((err) => {
-          console.log(err);
-          return []
-        })
-        browser.close()
-        resolve(contest)
+  return new Promise(async (resolve) => {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    let url = baseURL+contest.code+'B'
+    // Enable both JavaScript and CSS coverage
+    await Promise.all([
+      page.coverage.startJSCoverage(),
+      page.coverage.startCSSCoverage()
+    ]);
+    await page.goto(url, { waitUntil: 'networkidle0' }).catch((reason) => {
+      return []
     })
+    contest.problems =  await page.evaluate(() => {
+      let tableSelector = '.dataTable'
+      let tables = document.querySelectorAll(tableSelector)
+      let problems = []
+      try {
+        for(let row of tables[0].children[1].children) {
+          problems.push(row.children[1].innerText)
+        }
+        for(let row of tables[1].children[1].children) {
+          problems.push(row.children[1].innerText)
+        }
+      } finally {
+        return problems
+      }
+    }).catch((err) => {
+      console.log(err);
+      return []
+    })
+    const [jsCoverage, cssCoverage] = await Promise.all([
+      page.coverage.stopJSCoverage(),
+      page.coverage.stopCSSCoverage(),
+    ]);
+    pti.write([...jsCoverage, ...cssCoverage])
+    browser.close()
+    resolve(contest)
+  })
 }
 
 async function fetchSubmissions(profile, contest, callback) {
