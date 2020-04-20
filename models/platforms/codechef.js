@@ -53,28 +53,34 @@ async function fetchContests(date) {
 }
 
 async function fetchContestProblems(contest) {
-    return new Promise(async (resolve) => {
-        const browser = await puppeteer.launch()
-        const page = await browser.newPage()
-        let url = baseURL+contest.code+'B'
-        await page.goto(url)
-        contest.problems =  await page.evaluate(() => {
-            let tableSelector = '.dataTable'
-            let tables = document.querySelectorAll(tableSelector)
-            let problems = []
-            for(let row of tables[0].children[1].children) {
-              problems.push(row.children[1].innerText)
-            }
-            for(let row of tables[1].children[1].children) {
-              problems.push(row.children[1].innerText)
-            }
-            return problems
-        }).catch((err) => {
-          return []
-        })
-        browser.close()
-        resolve(contest)
+  return new Promise(async (resolve) => {
+    const browser = await puppeteer.launch()
+    const page = await browser.newPage()
+    let url = baseURL+contest.code+'B'
+    await page.goto(url, { waitUntil: 'networkidle0' }).catch((reason) => {
+      return []
     })
+    contest.problems =  await page.evaluate(() => {
+      let tableSelector = '.dataTable'
+      let tables = document.querySelectorAll(tableSelector)
+      let problems = []
+      try {
+        for(let row of tables[0].children[1].children) {
+          problems.push(row.children[1].innerText)
+        }
+        for(let row of tables[1].children[1].children) {
+          problems.push(row.children[1].innerText)
+        }
+      } finally {
+        return problems
+      }
+    }).catch((err) => {
+      console.log(err);
+      return []
+    })
+    browser.close()
+    resolve(contest)
+  })
 }
 
 async function fetchSubmissions(profile, contest, callback) {

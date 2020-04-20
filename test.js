@@ -67,8 +67,8 @@ describe('Scrapper', () => {
     {
       code: '1320',
       name: 'Codeforces Round #625 (Div. 1, based on Technocup 2020 Final Round)',
-      startTime: new Date('2020-03-01T10:45:00.000Z'),
-      endTime: new Date('2020-03-01T12:45:00.000Z'),
+      startTime: new Date('2020-03-01T13:15:00.000Z'),
+      endTime: new Date('2020-03-01T15:15:00.000Z'),
       problems: [
         'Journey Planning',
         'Navigation System',
@@ -81,8 +81,8 @@ describe('Scrapper', () => {
     {
       code: '1321',
       name: 'Codeforces Round #625 (Div. 2, based on Technocup 2020 Final Round)',
-      startTime: new Date('2020-03-01T10:45:00.000Z'),
-      endTime: new Date('2020-03-01T12:45:00.000Z'),
+      startTime: new Date('2020-03-01T13:15:00.000Z'),
+      endTime: new Date('2020-03-01T15:15:00.000Z'),
       problems: [
         'Contest for Robots',
         'Journey Planning',
@@ -96,22 +96,22 @@ describe('Scrapper', () => {
   
   describe('Fetch Contests', () => {
     it('should return November Challenge 2019', async () => {
-      let contests = await codechef.fetchContests(new Date(2019, 10, 11));
+      let contests = await codechef.fetchContests(NOV19.endTime);
       assert.deepEqual(contests, [NOV19])
     }).timeout(60000)
     it('should return January Cook-Off 2020', async () => {
-      let contests = await codechef.fetchContests(new Date(2020, 0, 20));
+      let contests = await codechef.fetchContests(COOK114.endTime);
       assert.deepEqual(contests, [COOK114])
     }).timeout(60000)
     it('should return March Lunchtime 2020 (Unrated)', async () => {
-      let contests = await codechef.fetchContests(new Date(2020, 2, 28));
+      let contests = await codechef.fetchContests(LTIME82.endTime);
       assert.deepEqual(contests, [LTIME82])
     }).timeout(60000)
     it('should return Empty array', async () => {
       assert.equal((await codechef.fetchContests(new Date(2020, 4, 10))).length, 0);
     }).timeout(60000)
     it('should return Codeforces Round #625', async () => {
-      let contests = await codeforces.fetchContests(new Date(2020, 2, 1))
+      let contests = await codeforces.fetchContests(CR625[0].endTime)
       assert.deepEqual(contests, CR625)
     }).timeout(60000)
     it('should return Empty array', async () => {
