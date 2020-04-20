@@ -7,9 +7,9 @@ class user_contest_performance {
     console.log("create database");  
     const sql = `
     CREATE TABLE IF NOT EXISTS user_contest_performance (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER,platform INTEGER,contest_code TEXT,solved INTEGER,upsolved INTEGER, 
       total INTEGER,
+      PRIMARY KEY (user_id,contest_code),
       FOREIGN KEY (user_id) REFERENCES user_table(id))`
       console.log("created table");
     return this.dao.run(sql)
@@ -17,7 +17,7 @@ class user_contest_performance {
   create(user_id, platform,contest_code, solved,upsolved,total) {
       console.log("Inserting");
       return this.dao.run(
-        `INSERT INTO user_contest_performance (user_id, platform,contest_code, solved,upsolved,total)
+        `INSERT or IGNORE INTO user_contest_performance (user_id, platform,contest_code, solved,upsolved,total)
           VALUES (?, ?, ?, ?, ?, ?)`,
         [user_id, platform,contest_code, solved,upsolved,total])
     }
@@ -31,20 +31,20 @@ class user_contest_performance {
         solved = ?,
         upsolved = ?,
         total = ?,
-      WHERE id = ?`,
-      [user_id, platform,contest_code, solved,upsolved,total]
+      WHERE user_id = ? AND contest_code = ?`,
+      [user_id, platform,contest_code, solved,upsolved,total,user_id,contest_code]
     )
   }
-  delete(id) {
+  delete(user_id,contest_code) {
     return this.dao.run(
-      `DELETE FROM user_contest_performance WHERE id = ?`,
-      [id]
+      `DELETE FROM user_contest_performance WHERE user_id = ? AND contest_code = ?`,
+      [user_id,contest_code]
     )
   }
-  getById(id) {
+  getByUserIdandContestCode(user_id,contest_code) {
     return this.dao.get(
-      `SELECT * FROM user_contest_performance WHERE id = ?`,
-      [id])
+      `SELECT * FROM user_contest_performance WHERE user_id = ? AND contest_code = ?`,
+      [user_id,contest_code])
   }
   getAll() {
     return this.dao.all(`SELECT * FROM user_contest_performance`)

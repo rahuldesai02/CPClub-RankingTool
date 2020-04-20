@@ -146,17 +146,16 @@ let user1 = {
   name: 'Shashikant',
   codechef_id: 'shashikdm',
   codeforce_id:'shashikdm',
-  stopstalk_id:'sk'
+  stopstalk_id:'sk',
+  status:'1'
 };
 let stat1 = {
-      id:1,
       date: '4545454',
       user_id: 1,
       codechef_rank:1234,
       codeforce_rank:3433
     }
 let perfo1 = {
-      id:1,
       user_id: 1,
       platform: 0,
       contest_code:'sdsds',
@@ -164,12 +163,16 @@ let perfo1 = {
       upsolved:100,
       total:123
     }
+let rank1 = {
+      codechef_rank:1234,
+      codeforce_rank:3433
+    }
 
 describe('Test User', () => {
   it('should return User Details', async () => {
     let utable = await userRepo.createTable();
-    const { name, codechef_id, codeforce_id, stopstalk_id } = user1;
-    let us = await userRepo.create(name, codechef_id, codeforce_id, stopstalk_id);
+    const { name, codechef_id, codeforce_id, stopstalk_id, status} = user1;
+    let us = await userRepo.create(name, codechef_id, codeforce_id, stopstalk_id, status);
     let user = await userRepo.getById(1);
     assert.deepEqual(user, user1);
   }).timeout(60000)
@@ -179,8 +182,14 @@ describe('Test User stats', () => {
     let ustable = await userStatRepo.createTable();
     const { date, user_id, codechef_rank, codeforce_rank } = stat1;
     let us = await userStatRepo.create(date, user_id, codechef_rank, codeforce_rank);
-    let stat = await userStatRepo.getById(1);
+    let stat = await userStatRepo.getByDateId(date,user_id);
     assert.deepEqual(stat, stat1);
+  }).timeout(60000)
+  it('should return rank for given date and id',async()=>{
+    const { date, user_id} = stat1;
+    console.log(date,user_id);
+    let rank = await userStatRepo.getRankByDateId(date,user_id);
+    assert.deepEqual(rank,rank1); 
   }).timeout(60000)
 })
 describe('Test User Performance', () => {
@@ -188,7 +197,7 @@ describe('Test User Performance', () => {
     let utable = await userContPerfRepo.createTable();
     const { user_id, platform, contest_code, solved, upsolved, total } = perfo1;
     let us = await userContPerfRepo.create(user_id, platform, contest_code, solved, upsolved, total);
-    let perfo = await userContPerfRepo.getById(1);
+    let perfo = await userContPerfRepo.getByUserIdandContestCode(user_id,contest_code);
     assert.deepEqual(perfo, perfo1);
   }).timeout(60000)
 })
