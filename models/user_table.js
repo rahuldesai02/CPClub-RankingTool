@@ -8,26 +8,27 @@ class user_table {
     const sql = `
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,codechef_id TEXT,codeforce_id TEXT,stopstalk_id TEXT)`
+      name TEXT,codechef_id TEXT,codeforce_id TEXT,stopstalk_id TEXT,status INTEGER)`
     return this.dao.run(sql)
   }
-  create(name, codechef_id, codeforce_id, stopstalk_id) {
+  create(name, codechef_id, codeforce_id, stopstalk_id,status) {
       console.log("Inserting");
       return this.dao.run(
-        `INSERT INTO users (name, codechef_id, codeforce_id,stopstalk_id)
-          VALUES (?, ?, ?, ?)`,
-        [name, codechef_id, codeforce_id, stopstalk_id])
+        `INSERT INTO users (name, codechef_id, codeforce_id,stopstalk_id,status)
+          VALUES (?, ?, ?, ?, ?)`,
+        [name, codechef_id, codeforce_id, stopstalk_id,status])
     }
   update(user) {
-    const { id, name, codechef_id, codeforce_id, stopstalk_id} = task
+    const { id, name, codechef_id, codeforce_id, stopstalk_id,status} = task
     return this.dao.run(
       `UPDATE users
       SET name = ?,
         codechef_id = ?,
         codeforecid = ?,
-        stopstalk_id = ?
+        stopstalk_id = ?,
+        status = ?
       WHERE id = ?`,
-      [name, codechef_id, codeforce_id, stopstalk_id, id]
+      [name, codechef_id, codeforce_id, stopstalk_id,status, id]
     )
   }
   delete(id) {

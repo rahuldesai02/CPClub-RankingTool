@@ -146,7 +146,8 @@ let user1 = {
   name: 'Shashikant',
   codechef_id: 'shashikdm',
   codeforce_id:'shashikdm',
-  stopstalk_id:'sk'
+  stopstalk_id:'sk',
+  status:'1'
 };
 let stat1 = {
       id:1,
@@ -168,8 +169,8 @@ let perfo1 = {
 describe('Test User', () => {
   it('should return User Details', async () => {
     let utable = await userRepo.createTable();
-    const { name, codechef_id, codeforce_id, stopstalk_id } = user1;
-    let us = await userRepo.create(name, codechef_id, codeforce_id, stopstalk_id);
+    const { name, codechef_id, codeforce_id, stopstalk_id, status} = user1;
+    let us = await userRepo.create(name, codechef_id, codeforce_id, stopstalk_id, status);
     let user = await userRepo.getById(1);
     assert.deepEqual(user, user1);
   }).timeout(60000)
