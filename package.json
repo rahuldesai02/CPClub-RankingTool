@@ -24,6 +24,8 @@
     "axios": "^0.19.2",
     "bluebird": "^3.7.2",
     "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.6",
     "mocha": "^7.1.1",
     "puppeteer": "^2.1.1",
     "sqlite3": "^4.1.1"
