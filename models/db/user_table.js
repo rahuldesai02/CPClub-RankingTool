@@ -45,6 +45,10 @@ class user_table {
   getAll() {
     return this.dao.all(`SELECT * FROM users`)
   }
+  getByName(name){
+    return this.dao.all(`SELECT * FROM users WHERE name = ?`,
+    [name])
+  }
 }
 
 module.exports = user_table;
