@@ -147,7 +147,7 @@ let user1 = {
   codechef_id: 'shashikdm',
   codeforce_id:'shashikdm',
   stopstalk_id:'sk',
-  status:'1'
+  status:1
 };
 let stat1 = {
       date: '4545454',
@@ -167,7 +167,6 @@ let rank1 = {
       codechef_rank:1234,
       codeforce_rank:3433
     }
-
 describe('Test User', () => {
   it('should return User Details', async () => {
     let utable = await userRepo.createTable();
@@ -176,6 +175,12 @@ describe('Test User', () => {
     let user = await userRepo.getById(1);
     assert.deepEqual(user, user1);
   }).timeout(60000)
+  it('should return user details given name',async()=>{
+    const{name} = user1
+    let user = await userRepo.getByName(name);
+    //console.log(user);
+    assert.deepEqual(user, [user1]);
+  })
 })
 describe('Test User stats', () => {
   it('should return User stat details', async () => {
@@ -187,7 +192,7 @@ describe('Test User stats', () => {
   }).timeout(60000)
   it('should return rank for given date and id',async()=>{
     const { date, user_id} = stat1;
-    console.log(date,user_id);
+    //console.log(date,user_id);
     let rank = await userStatRepo.getRankByDateId(date,user_id);
     assert.deepEqual(rank,rank1); 
   }).timeout(60000)
