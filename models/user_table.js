@@ -45,9 +45,6 @@ class user_table {
   getAll() {
     return this.dao.all(`SELECT * FROM users`)
   }
-  getNameById(id){
-
-  }
 }
 
 module.exports = user_table;
