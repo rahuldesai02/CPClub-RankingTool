@@ -8,13 +8,13 @@ class user_table {
     const sql = `
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT,codechef_id TEXT,codeforce_id TEXT,stopstalk_id TEXT,status INTEGER)`
+      name TEXT UNIQUE,codechef_id TEXT,codeforce_id TEXT,stopstalk_id TEXT,status INTEGER)`
     return this.dao.run(sql)
   }
   create(name, codechef_id, codeforce_id, stopstalk_id,status) {
       console.log("Inserting");
       return this.dao.run(
-        `INSERT INTO users (name, codechef_id, codeforce_id,stopstalk_id,status)
+        `INSERT or IGNORE INTO users (name, codechef_id, codeforce_id,stopstalk_id,status)
           VALUES (?, ?, ?, ?, ?)`,
         [name, codechef_id, codeforce_id, stopstalk_id,status])
     }
@@ -44,6 +44,9 @@ class user_table {
   }
   getAll() {
     return this.dao.all(`SELECT * FROM users`)
+  }
+  getNameById(id){
+
   }
 }
 

@@ -45,6 +45,11 @@ class user_stats {
   getAll() {
     return this.dao.all(`SELECT * FROM stats`)
   }
+  getRankByIdDate(id,date){
+    return this.dao.get(
+      `SELECT * FROM stats WHERE id = ? AND date = ?`,
+      [id,date])
+  }
 }
 
 module.exports = user_stats;
